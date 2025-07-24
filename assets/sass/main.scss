@@ -1,5 +1,5 @@
 // =============================================================================
-// main.scss - Fixed version with proper selector specificity order
+// main.scss - FINAL FIX: All :first-child selectors at the very end
 // =============================================================================
 
 @use "sass:color";
@@ -15,12 +15,9 @@
 @import url('libs/html-grid');
 
 // =============================================================================
-// BASE SELECTORS (LOWEST SPECIFICITY FIRST)
+// RESET & BASE STYLES (LOWEST SPECIFICITY)
 // =============================================================================
 
-// These MUST come before any more specific selectors to avoid specificity issues
-
-// Base element selectors
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -45,7 +42,10 @@ body {
   }
 }
 
-// Base typography elements
+// =============================================================================
+// TYPOGRAPHY BASE (BEFORE ANY SPECIFIC STYLES)
+// =============================================================================
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 _size(element-margin);
   font-weight: 600;
@@ -69,7 +69,10 @@ p {
   margin: 0 0 _size(element-margin);
 }
 
-// Base anchor element (MUST come before any nested anchor selectors)
+// =============================================================================
+// LINKS BASE (BEFORE ANY SPECIFIC STYLES) 
+// =============================================================================
+
 a {
   color: #2196f3;
   text-decoration: none;
@@ -86,18 +89,23 @@ a {
   }
 }
 
-// Base list elements (MUST come before any nested list selectors)
+// =============================================================================
+// LIST ELEMENTS BASE (BEFORE ANY SPECIFIC STYLES)
+// =============================================================================
+
 ul, ol {
   margin: 0 0 _size(element-margin);
   padding-left: 1.5em;
 }
 
-// Base li element (MUST come before ANY ul specific li selectors)
 li {
   margin: 0 0 (_size(element-margin) * 0.5);
 }
 
-// Base table elements
+// =============================================================================
+// TABLE BASE
+// =============================================================================
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -129,10 +137,6 @@ table {
   thead {
     border-bottom: 1px solid #ddd;
   }
-
-  tbody tr td {
-    padding: 0.75em;
-  }
 }
 
 // =============================================================================
@@ -152,8 +156,7 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-select,
-textarea {
+select {
   appearance: none;
   background: #f8f8f8;
   border: 1px solid #ddd;
@@ -177,11 +180,30 @@ textarea {
 }
 
 textarea {
+  appearance: none;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: inherit;
+  display: block;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75em;
+  width: 100%;
   min-height: 8rem;
   resize: vertical;
+
+  &:focus {
+    border-color: #2196f3;
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(33 150 243 / 20%);
+  }
+
+  &:invalid {
+    border-color: #f44336;
+  }
 }
 
-// Placeholder styles
 ::placeholder {
   color: color.adjust(#333, $alpha: -0.5);
   opacity: 1;
@@ -229,25 +251,10 @@ input[type="button"] {
 }
 
 // =============================================================================
-// MORE SPECIFIC SELECTORS (HIGHER SPECIFICITY)
+// COMPONENT-SPECIFIC STYLES (NO :first-child selectors here)
 // =============================================================================
 
-// More specific list styles - these come AFTER base li styles
-ul.alt {
-  list-style: none;
-  padding-left: 0;
-
-  li {
-    border-top: 1px solid #ddd;
-    padding: 0.5em 0;
-
-    &:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
-  }
-}
-
+// Action Lists - Common button/form groupings
 ul.actions {
   display: flex;
   flex-wrap: wrap;
@@ -264,10 +271,6 @@ ul.actions {
   &.special {
     justify-content: center;
     margin: (_size(element-margin) * 0.65) 0 0;
-
-    li:first-child {
-      margin: (_size(element-margin) * 0.65) 0 0;
-    }
   }
 
   @include breakpoint('<=small') {
@@ -276,14 +279,11 @@ ul.actions {
     li {
       flex: 1 1 auto;
       margin: (_size(element-margin) * 0.5) 0 0;
-
-      &:first-child {
-        margin-top: 0;
-      }
     }
   }
 }
 
+// Labeled Icon Lists
 ul.labeled-icons {
   list-style: none;
   padding: 0;
@@ -314,6 +314,17 @@ ul.labeled-icons {
   }
 }
 
+// Alternative Lists (NO :first-child here)
+ul.alt {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    border-top: 1px solid #ddd;
+    padding: 0.5em 0;
+  }
+}
+
 // =============================================================================
 // TABLE VARIANTS
 // =============================================================================
@@ -325,14 +336,6 @@ table.alt {
     border: 1px solid #ddd;
     border-left-width: 0;
     border-top-width: 0;
-
-    &:first-child {
-      border-left-width: 1px;
-    }
-  }
-
-  tbody tr:first-child td {
-    border-top-width: 1px;
   }
 
   thead {
@@ -370,7 +373,39 @@ table.alt {
 }
 
 // =============================================================================
-// HEADER (ID SELECTORS HAVE HIGH SPECIFICITY)
+// ALL :first-child SELECTORS (BEFORE HIGH SPECIFICITY ID SELECTORS)
+// =============================================================================
+
+// These come before #header to maintain proper specificity order
+ul.actions li:first-child {
+  margin: 0;
+}
+
+ul.alt li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+ul.actions.special li:first-child {
+  margin: (_size(element-margin) * 0.65) 0 0;
+}
+
+@include breakpoint('<=small') {
+  ul.actions li:first-child {
+    margin-top: 0;
+  }
+}
+
+table.alt tbody tr:first-child td {
+  border-top-width: 1px;
+}
+
+table.alt tbody tr td:first-child {
+  border-left-width: 1px;
+}
+
+// =============================================================================
+// LAYOUT COMPONENTS (HIGHEST SPECIFICITY - ID SELECTORS)
 // =============================================================================
 
 #header {
@@ -500,10 +535,6 @@ table.alt {
   }
 }
 
-// =============================================================================
-// MAIN CONTENT AREAS
-// =============================================================================
-
 #main {
   padding: 6em 0 4em;
 
@@ -529,7 +560,7 @@ table.alt {
 }
 
 // =============================================================================
-// SECTIONS
+// UTILITY CLASSES
 // =============================================================================
 
 .container {
@@ -560,40 +591,22 @@ table.alt {
   }
 }
 
-// =============================================================================
-// UTILITY CLASSES
-// =============================================================================
-
-.align-left {
-  text-align: left;
-}
-
-.align-center {
-  text-align: center;
-}
-
-.align-right {
-  text-align: right;
-}
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
 
 // =============================================================================
 // RESPONSIVE UTILITIES
 // =============================================================================
 
 @include breakpoint('<=small') {
-  .hide-small {
-    display: none !important;
-  }
+  .hide-small { display: none !important; }
 }
 
 @include breakpoint('<=medium') {
-  .hide-medium {
-    display: none !important;
-  }
+  .hide-medium { display: none !important; }
 }
 
 @include breakpoint('<=large') {
-  .hide-large {
-    display: none !important;
-  }
+  .hide-large { display: none !important; }
 }
