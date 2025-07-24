@@ -92,17 +92,9 @@ ul, ol {
   padding-left: 1.5em;
 }
 
-// Base li element (MUST come before ANY ul.* li selectors)
+// Base li element (MUST come before ANY ul specific li selectors)
 li {
-  margin: 0 0 (_size(element-margin) * 0.25);
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+  margin: 0 0 (_size(element-margin) * 0.5);
 }
 
 // Base table elements
@@ -111,101 +103,59 @@ table {
   border-spacing: 0;
   margin: 0 0 _size(element-margin);
   width: 100%;
-}
 
-tbody tr {
-  border: 1px solid #ddd;
-  border-left: 0;
-  border-right: 0;
+  tbody tr {
+    border: 1px solid #ddd;
+    border-left: 0;
+    border-right: 0;
 
-  &:nth-child(2n + 1) {
-    background: rgb(244 244 244 / 30%);
+    &:nth-child(2n + 1) {
+      background: #f8f8f8;
+    }
   }
-}
 
-td {
-  padding: 0.75em;
-}
+  td {
+    padding: 0.75em;
+  }
 
-th {
-  color: #666;
-  font-size: 0.9em;
-  font-weight: 600;
-  padding: 0 0.75em 0.75em;
-  text-align: left;
-}
+  th {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 0 0.75em 0.75em;
+    text-align: left;
+  }
 
-thead {
-  border-bottom: 2px solid #ddd;
-}
+  thead {
+    border-bottom: 1px solid #ddd;
+  }
 
-tfoot {
-  border-top: 2px solid #ddd;
+  tbody tr td {
+    padding: 0.75em;
+  }
 }
 
 // =============================================================================
 // FORM ELEMENTS
 // =============================================================================
 
-// Base form element styles
+label {
+  display: block;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0 0 (_size(element-margin) * 0.5);
+}
+
 input[type="text"],
 input[type="password"],
-input[type="email"] {
-  appearance: none;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: inherit;
-  display: block;
-  font-family: inherit;
-  font-size: 1rem;
-  padding: 0.75em;
-  width: 100%;
-
-  &:focus {
-    border-color: #2196f3;
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(33 150 243 / 20%);
-  }
-
-  &:invalid {
-    border-color: #f44336;
-  }
-}
-
-// Select elements
-select {
-  appearance: none;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: inherit;
-  display: block;
-  font-family: inherit;
-  font-size: 1rem;
-  padding: 0.75em;
-  width: 100%;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='m2 0-2 2h4zm0 5 2-2h-4z'/%3E%3C/svg%3E");
-  background-position: right 0.75rem center;
-  background-repeat: no-repeat;
-  background-size: 0.65rem;
-  padding-right: 2.5rem;
-
-  &:focus {
-    border-color: #2196f3;
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(33 150 243 / 20%);
-  }
-
-  &:invalid {
-    border-color: #f44336;
-  }
-}
-
-// Textarea elements
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+input[type="url"],
+select,
 textarea {
   appearance: none;
-  background: #fff;
+  background: #f8f8f8;
   border: 1px solid #ddd;
   border-radius: 4px;
   color: inherit;
@@ -214,8 +164,6 @@ textarea {
   font-size: 1rem;
   padding: 0.75em;
   width: 100%;
-  min-height: 8rem;
-  resize: vertical;
 
   &:focus {
     border-color: #2196f3;
@@ -226,6 +174,11 @@ textarea {
   &:invalid {
     border-color: #f44336;
   }
+}
+
+textarea {
+  min-height: 8rem;
+  resize: vertical;
 }
 
 // Placeholder styles
@@ -306,10 +259,6 @@ ul.actions {
   li {
     flex: 0 0 auto;
     margin: 0;
-
-    &:first-child {
-      margin-top: 0;
-    }
   }
 
   &.special {
@@ -327,6 +276,10 @@ ul.actions {
     li {
       flex: 1 1 auto;
       margin: (_size(element-margin) * 0.5) 0 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
     }
   }
 }
@@ -438,7 +391,7 @@ table.alt {
     justify-content: space-between;
     margin: 0 auto;
     max-width: 65em;
-    padding: 0 ($size-header-pad * 2) 0 $size-header-pad;
+    padding: 0 2em 0 1em;
     position: relative;
   }
 
@@ -446,7 +399,7 @@ table.alt {
     color: #fff;
     display: inline-block;
     font-weight: 600;
-    left: $size-header-pad;
+    left: 1em;
     line-height: 1;
     margin: 0;
     padding: 0;
@@ -459,7 +412,7 @@ table.alt {
     height: inherit;
     line-height: inherit;
     position: absolute;
-    right: $size-header-pad;
+    right: 1em;
     top: 0;
     vertical-align: middle;
 
@@ -526,117 +479,121 @@ table.alt {
 
   @include breakpoint('<=medium') {
     .inner {
-      padding: ($size-header-pad * 1.5) $size-header-pad (($size-header-pad * 1.5) - _size(element-margin));
+      padding: 1.5em 1em 0.5em;
     }
 
     .logo {
-      margin: ($size-header-pad * 1.5) 0 0;
+      margin: 0.5em 0 0;
       position: relative;
+      left: auto;
       transform: none;
+      top: auto;
     }
 
     nav {
-      height: auto;
-      line-height: 1.5;
-      pointer-events: none;
-      position: relative;
-      right: auto;
-      top: auto;
+      display: none;
 
-      ul {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: all 0.35s ease;
-
-        &.visible {
-          max-height: none;
-          opacity: 1;
-        }
-
-        li {
-          border-left: 0;
-          border-top: 1px solid rgb(255 255 255 / 15%);
-          display: block;
-          line-height: 1.5;
-          margin: 0;
-
-          &:first-child {
-            border-top: 0;
-          }
-
-          a {
-            font-size: 0.8em;
-            height: auto;
-            line-height: 1.5;
-            padding: 0.5em 0;
-            pointer-events: auto;
-          }
-        }
+      &.visible {
+        display: block;
       }
     }
   }
 }
 
 // =============================================================================
-// FOOTER
+// MAIN CONTENT AREAS
 // =============================================================================
 
+#main {
+  padding: 6em 0 4em;
+
+  @include breakpoint('<=medium') {
+    padding: 4em 0 2em;
+  }
+}
+
 #footer {
-  background: #2f3542;
-  color: #fff;
-  padding: ($size-header-pad * 2) 0;
+  padding: 6em 0 4em;
+  background: #f8f8f8;
+  border-top: 1px solid #ddd;
 
   .inner {
-    display: flex;
-    flex-wrap: wrap;
     margin: 0 auto;
     max-width: 65em;
-    padding: 0 $size-header-pad;
-  }
-
-  .copyright {
-    color: color.adjust(#fff, $alpha: -0.25);
-    font-size: 0.8em;
-    margin: 0;
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:hover {
-        color: #fff;
-      }
-    }
+    padding: 0 2em;
   }
 
   @include breakpoint('<=medium') {
-    .inner {
-      flex-direction: column;
+    padding: 4em 0 2em;
+  }
+}
+
+// =============================================================================
+// SECTIONS
+// =============================================================================
+
+.container {
+  margin: 0 auto;
+  max-width: 65em;
+  padding: 0 2em;
+
+  @include breakpoint('<=medium') {
+    padding: 0 1em;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -1em;
+
+  > * {
+    padding: 0 1em;
+  }
+
+  @include breakpoint('<=medium') {
+    margin: 0 -0.5em;
+
+    > * {
+      padding: 0 0.5em;
     }
   }
 }
 
 // =============================================================================
-// RESPONSIVE BREAKPOINTS
+// UTILITY CLASSES
 // =============================================================================
 
-@include breakpoint('<=xlarge') {
-  // Styles for extra large screens and below
+.align-left {
+  text-align: left;
 }
 
-@include breakpoint('<=large') {
-  // Styles for large screens and below
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+// =============================================================================
+// RESPONSIVE UTILITIES
+// =============================================================================
+
+@include breakpoint('<=small') {
+  .hide-small {
+    display: none !important;
+  }
 }
 
 @include breakpoint('<=medium') {
-  // Styles for medium screens and below
+  .hide-medium {
+    display: none !important;
+  }
 }
 
-@include breakpoint('<=small') {
-  // Styles for small screens and below
-}
-
-@include breakpoint('<=xsmall') {
-  // Styles for extra small screens and below
+@include breakpoint('<=large') {
+  .hide-large {
+    display: none !important;
+  }
 }
