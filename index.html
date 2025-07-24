@@ -13,10 +13,34 @@
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
     <link rel="stylesheet" href="assets/css/main.css" />
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-    ></script>
+    <style>
+      .form-message {
+        padding: 1em;
+        margin: 1em 0;
+        border-radius: 0.35em;
+        font-weight: bold;
+        display: none;
+      }
+      .form-message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+      }
+      .form-message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+      }
+      .form-message.loading {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 2px solid #bee5eb;
+      }
+      .button.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    </style>
   </head>
   <body class="is-preload">
     <!-- Header -->
@@ -112,9 +136,9 @@
       <section id="three">
         <h2>Get In Touch</h2>
         <p>
-          Accumsan pellentesque commodo blandit enim arcu non at amet id arcu
-          magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem
-          vulputate lorem neque lorem ipsum dolor.
+          I'd love to hear from you! Whether you have questions about my books,
+          want to discuss a potential collaboration, or just want to say hello,
+          feel free to reach out.
         </p>
         <div id="form-message" class="form-message"></div>
 
@@ -536,6 +560,10 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
     <script>
       // EmailJS Configuration
       (function () {
