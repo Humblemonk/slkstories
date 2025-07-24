@@ -136,6 +136,26 @@ table {
 }
 
 // =============================================================================
+// MOST SPECIFIC LIST SELECTORS (HIGHEST SPECIFICITY - MUST COME LAST)
+// =============================================================================
+
+// ul.alt comes AFTER all other li selectors to avoid specificity conflicts
+ul.alt {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    border-top: 1px solid #ddd;
+    padding: 0.5em 0;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+}
+
+// =============================================================================
 // FORM ELEMENTS
 // =============================================================================
 
@@ -251,22 +271,6 @@ input[type="button"] {
 // =============================================================================
 // MORE SPECIFIC SELECTORS (HIGHER SPECIFICITY)
 // =============================================================================
-
-// More specific list styles - these come AFTER base li styles
-ul.alt {
-  list-style: none;
-  padding-left: 0;
-
-  li {
-    border-top: 1px solid #ddd;
-    padding: 0.5em 0;
-
-    &:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
-  }
-}
 
 ul.actions {
   display: flex;
