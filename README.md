@@ -1,7 +1,7 @@
 # SLK Stories
 
-**Author Website for Stephanie Kirsche**  
-A GitHub Pages website showcasing the literary works of contemporary fiction author Stephanie Kirsche.
+**Author site for Stephanie Kirsche**  
+A GitHub Pages site showcasing the literary works of contemporary fiction author Stephanie Kirsche.
 
 ## About the Author
 
