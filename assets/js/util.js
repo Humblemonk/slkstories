@@ -95,8 +95,16 @@
 			}, userConfig);
 
 			// Expand "target" if it's not a jQuery object already.
-				if (typeof config.target != 'jQuery')
-					config.target = $(config.target);
+				if (!(config.target instanceof jQuery)) {
+					// Sanitize config.target to prevent XSS
+					if (typeof config.target === 'string') {
+						// Ensure the string is treated as a CSS selector, not HTML
+						config.target = $(document).find(config.target);
+					} else {
+						// Fallback for non-string values (e.g., DOM elements)
+						config.target = $(config.target);
+					}
+				}
 
 		// Panel.
 
