@@ -40,3 +40,4 @@ jobs:
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
           CSS_PRETTIER: false
+          JAVASCRIPT_PRETTIER: false
