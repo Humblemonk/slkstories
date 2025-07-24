@@ -14,10 +14,6 @@ Stephanie Kirsche is a writer with a passion for storytelling. Growing up in ups
 - **Pictures of You** - The story of twenty-eight-year-old Rachel Kelly, who is trying to rebuild her life after an accident took away her memories of the last eleven years.
 - **Deadly Sins** (Book One in Syn Sisters Series) - A fantasy novel about Ariadne Jones, a young witch on the run who finds herself in the small town of Dern Hill, attempting to outrun her past and her coven.
 
-## Website
-
-Visit the live site at: [slkstories.com](https://slkstories.com)
-
 ## Find Her Books
 
 **Goodreads Profile:** [Stephanie Kirsche](https://www.goodreads.com/author/show/29663187.Stephanie_Kirsche)  
@@ -35,6 +31,10 @@ Stephanie Kirsche is known for her engaging contemporary fiction that explores t
 ## Contact
 
 For questions about the author or her works, please visit her Goodreads profile
+
+## Website
+
+Visit the live site at: [slkstories.com](https://slkstories.com)
 
 ---
 
