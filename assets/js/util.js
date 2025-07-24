@@ -20,11 +20,11 @@
 			b.push(
 				'<a ' +
 					'class="link depth-' + indent + '"' +
-					( (typeof target !== 'undefined' && target != '') ? ' target="' + target + '"' : '') +
-					( (typeof href !== 'undefined' && href != '') ? ' href="' + href + '"' : '') +
+          ( (typeof target !== 'undefined' && target != '') ? ' target="' + $('<div>').text(target).html() + '"' : '') +
+          ( (typeof href !== 'undefined' && href != '') ? ' href="' + $('<div>').text(href).html() + '"' : '') +
 				'>' +
 					'<span class="indent-' + indent + '"></span>' +
-					$this.text() +
+          $('<div>').text($this.text()).html() +
 				'</a>'
 			);
 
