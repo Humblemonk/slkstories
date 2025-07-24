@@ -98,18 +98,8 @@
 							<div class="col-4 col-12-small">
 								<ul class="labeled-icons">
 									<li>
-										<h3 class="icon solid fa-home"><span class="label">Address</span></h3>
-										1234 Somewhere Rd.<br />
-										Nashville, TN 00000<br />
-										United States
-									</li>
-									<li>
-										<h3 class="icon solid fa-mobile-alt"><span class="label">Phone</span></h3>
-										000-000-0000
-									</li>
-									<li>
 										<h3 class="icon solid fa-envelope"><span class="label">Email</span></h3>
-										<a href="#">hello@untitled.tld</a>
+										<a href="#">steph.kirsche07@gmail.com</a>
 									</li>
 								</ul>
 							</div>
@@ -458,6 +448,65 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+// EmailJS Configuration
+(function() {
+    // Initialize EmailJS with your public key
+    emailjs.init('Kgj2hkLozHYv4c04I'); // Replace with your actual EmailJS public key
+})();
+
+// Form submission handler
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const submitBtn = document.getElementById('submit');
+    const messageDiv = document.getElementById('message');
+    
+    // Show loading state
+    showMessage('Sending message...', 'loading');
+    submitBtn.classList.add('disabled');
+    submitBtn.value = 'Sending...';
+    submitBtn.disabled = true;
+    
+    // EmailJS service configuration
+    const serviceID = 'service_slkstories'; // Replace with your EmailJS service ID
+    const templateID = 'template_suloq1k'; // Replace with your EmailJS template ID
+    
+    // Send email using EmailJS
+    emailjs.sendForm(serviceID, templateID, this)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showMessage('Message sent successfully! I\'ll get back to you soon.', 'success');
+            document.getElementById('contact-form').reset();
+        }, function(error) {
+            console.log('FAILED...', error);
+            showMessage('Failed to send message. Please try again or email me directly at steph.kirsche07@gmail.com', 'error');
+        })
+        .finally(function() {
+            // Reset button state
+            submitBtn.classList.remove('disabled');
+            submitBtn.value = 'Send Message';
+            submitBtn.disabled = false;
+        });
+});
+
+// Function to show messages
+function showMessage(text, type) {
+    const messageDiv = document.getElementById('form-message');
+    messageDiv.textContent = text;
+    messageDiv.className = 'form-message ' + type;
+    messageDiv.style.display = 'block';
+    
+    // Auto-hide success/error messages after 5 seconds
+    if (type !== 'loading') {
+        setTimeout(function() {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    }
+}
+</script>
 
 	</body>
 </html>
