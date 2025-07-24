@@ -227,11 +227,13 @@ input[type="button"] {
 // LISTS
 // =============================================================================
 
+// Base list styles (least specific)
 ul, ol {
   margin: 0 0 _size(element-margin);
   padding-left: 1.5em;
 }
 
+// Base li styles (must come before any nested li selectors)
 li {
   margin: 0 0 (_size(element-margin) * 0.25);
 
@@ -244,6 +246,7 @@ li {
   }
 }
 
+// More specific list styles (higher specificity)
 ul.alt {
   list-style: none;
   padding-left: 0;
