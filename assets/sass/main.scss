@@ -267,6 +267,11 @@ ul.actions {
   margin: (_size(element-margin) * 0.65) 0 0;
   padding: 0;
 
+  li {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
   &.special {
     justify-content: center;
     margin: (_size(element-margin) * 0.65) 0 0;
@@ -287,11 +292,6 @@ ul.actions {
         margin-top: 0;
       }
     }
-  }
-
-  li {
-    flex: 0 0 auto;
-    margin: 0;
   }
 }
 
