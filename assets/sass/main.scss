@@ -1,5 +1,5 @@
 // =============================================================================
-// main.scss - Fixed version with proper selector specificity order
+// main.scss - RESTRUCTURED to eliminate specificity conflicts
 // =============================================================================
 
 @use "sass:color";
@@ -15,12 +15,9 @@
 @import url('libs/html-grid');
 
 // =============================================================================
-// BASE SELECTORS (LOWEST SPECIFICITY FIRST)
+// RESET & BASE STYLES (LOWEST SPECIFICITY)
 // =============================================================================
 
-// These MUST come before any more specific selectors to avoid specificity issues
-
-// Base element selectors
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -45,22 +42,19 @@ body {
   }
 }
 
-// Base typography elements
+// =============================================================================
+// TYPOGRAPHY BASE (BEFORE ANY SPECIFIC STYLES)
+// =============================================================================
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 _size(element-margin);
   font-weight: 600;
   line-height: 1.2;
 }
 
-h1 {
-  font-size: 2.5rem;
-}
-
-h2 {
-  font-size: 2rem;
-}
-
-h3 {
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { 
   font-size: 1.75rem;
   margin: 0 0 (_size(element-margin) * 0.75);
 }
@@ -69,7 +63,10 @@ p {
   margin: 0 0 _size(element-margin);
 }
 
-// Base anchor element (MUST come before any nested anchor selectors)
+// =============================================================================
+// LINKS BASE (BEFORE ANY SPECIFIC STYLES) 
+// =============================================================================
+
 a {
   color: #2196f3;
   text-decoration: none;
@@ -86,18 +83,23 @@ a {
   }
 }
 
-// Base list elements (MUST come before any nested list selectors)
+// =============================================================================
+// LIST ELEMENTS BASE (BEFORE ANY SPECIFIC STYLES)
+// =============================================================================
+
 ul, ol {
   margin: 0 0 _size(element-margin);
   padding-left: 1.5em;
 }
 
-// Base li element (MUST come before ANY ul specific li selectors)
 li {
   margin: 0 0 (_size(element-margin) * 0.5);
 }
 
-// Base table elements
+// =============================================================================
+// TABLE BASE
+// =============================================================================
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -128,30 +130,6 @@ table {
 
   thead {
     border-bottom: 1px solid #ddd;
-  }
-
-  tbody tr td {
-    padding: 0.75em;
-  }
-}
-
-// =============================================================================
-// MOST SPECIFIC LIST SELECTORS (HIGHEST SPECIFICITY - MUST COME LAST)
-// =============================================================================
-
-// ul.alt comes AFTER all other li selectors to avoid specificity conflicts
-ul.alt {
-  list-style: none;
-  padding-left: 0;
-
-  li {
-    border-top: 1px solid #ddd;
-    padding: 0.5em 0;
-
-    &:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
   }
 }
 
@@ -195,7 +173,6 @@ select {
   }
 }
 
-// Base textarea element (MUST come before any textarea pseudo-selectors)
 textarea {
   appearance: none;
   background: #f8f8f8;
@@ -221,7 +198,6 @@ textarea {
   }
 }
 
-// Placeholder styles
 ::placeholder {
   color: color.adjust(#333, $alpha: -0.5);
   opacity: 1;
@@ -269,9 +245,10 @@ input[type="button"] {
 }
 
 // =============================================================================
-// MORE SPECIFIC SELECTORS (HIGHER SPECIFICITY)
+// COMPONENT-SPECIFIC STYLES (MEDIUM SPECIFICITY)
 // =============================================================================
 
+// Action Lists - Common button/form groupings
 ul.actions {
   display: flex;
   flex-wrap: wrap;
@@ -312,6 +289,7 @@ ul.actions {
   }
 }
 
+// Labeled Icon Lists
 ul.labeled-icons {
   list-style: none;
   padding: 0;
@@ -338,6 +316,22 @@ ul.labeled-icons {
       left: 0;
       margin: 0 0 (_size(element-margin) * 0.25);
       position: relative;
+    }
+  }
+}
+
+// Alternative Lists (MOVED TO END - HIGHEST SPECIFICITY)
+ul.alt {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    border-top: 1px solid #ddd;
+    padding: 0.5em 0;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
     }
   }
 }
@@ -398,7 +392,7 @@ table.alt {
 }
 
 // =============================================================================
-// HEADER (ID SELECTORS HAVE HIGH SPECIFICITY)
+// LAYOUT COMPONENTS (HIGH SPECIFICITY)
 // =============================================================================
 
 #header {
@@ -528,10 +522,6 @@ table.alt {
   }
 }
 
-// =============================================================================
-// MAIN CONTENT AREAS
-// =============================================================================
-
 #main {
   padding: 6em 0 4em;
 
@@ -557,7 +547,7 @@ table.alt {
 }
 
 // =============================================================================
-// SECTIONS
+// UTILITY CLASSES
 // =============================================================================
 
 .container {
@@ -588,40 +578,22 @@ table.alt {
   }
 }
 
-// =============================================================================
-// UTILITY CLASSES
-// =============================================================================
-
-.align-left {
-  text-align: left;
-}
-
-.align-center {
-  text-align: center;
-}
-
-.align-right {
-  text-align: right;
-}
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
 
 // =============================================================================
 // RESPONSIVE UTILITIES
 // =============================================================================
 
 @include breakpoint('<=small') {
-  .hide-small {
-    display: none !important;
-  }
+  .hide-small { display: none !important; }
 }
 
 @include breakpoint('<=medium') {
-  .hide-medium {
-    display: none !important;
-  }
+  .hide-medium { display: none !important; }
 }
 
 @include breakpoint('<=large') {
-  .hide-large {
-    display: none !important;
-  }
+  .hide-large { display: none !important; }
 }
