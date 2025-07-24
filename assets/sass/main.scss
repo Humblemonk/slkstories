@@ -338,10 +338,6 @@ table.alt {
     border-top-width: 0;
   }
 
-  tbody tr td {
-    border-top-width: 1px;
-  }
-
   thead {
     border-bottom: 0;
   }
@@ -377,7 +373,39 @@ table.alt {
 }
 
 // =============================================================================
-// LAYOUT COMPONENTS (HIGH SPECIFICITY - NO :first-child)
+// ALL :first-child SELECTORS (BEFORE HIGH SPECIFICITY ID SELECTORS)
+// =============================================================================
+
+// These come before #header to maintain proper specificity order
+ul.actions li:first-child {
+  margin: 0;
+}
+
+ul.actions.special li:first-child {
+  margin: (_size(element-margin) * 0.65) 0 0;
+}
+
+@include breakpoint('<=small') {
+  ul.actions li:first-child {
+    margin-top: 0;
+  }
+}
+
+ul.alt li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+table.alt tbody tr:first-child td {
+  border-top-width: 1px;
+}
+
+table.alt tbody tr td:first-child {
+  border-left-width: 1px;
+}
+
+// =============================================================================
+// LAYOUT COMPONENTS (HIGHEST SPECIFICITY - ID SELECTORS)
 // =============================================================================
 
 #header {
@@ -436,6 +464,10 @@ table.alt {
         margin: 0;
         padding-left: 0;
         white-space: nowrap;
+
+        &:first-child {
+          border-left: none;
+        }
 
         a {
           color: #fff;
@@ -577,42 +609,4 @@ table.alt {
 
 @include breakpoint('<=large') {
   .hide-large { display: none !important; }
-}
-
-// =============================================================================
-// ALL :first-child SELECTORS (HIGHEST SPECIFICITY - MUST BE LAST)
-// =============================================================================
-
-// These MUST come at the very end to avoid specificity conflicts
-// Any :first-child selector has higher specificity than base selectors
-
-ul.actions li:first-child {
-  margin: 0;
-}
-
-ul.actions.special li:first-child {
-  margin: (_size(element-margin) * 0.65) 0 0;
-}
-
-@include breakpoint('<=small') {
-  ul.actions li:first-child {
-    margin-top: 0;
-  }
-}
-
-ul.alt li:first-child {
-  border-top: none;
-  padding-top: 0;
-}
-
-table.alt tbody tr:first-child td {
-  border-top-width: 1px;
-}
-
-table.alt tbody tr td:first-child {
-  border-left-width: 1px;
-}
-
-#header nav ul li:first-child {
-  border-left: none;
 }
