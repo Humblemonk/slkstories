@@ -39,3 +39,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
+          CSS_PRETTIER: false
