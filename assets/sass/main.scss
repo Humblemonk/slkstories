@@ -1,5 +1,5 @@
 // =============================================================================
-// main.scss - Fixed version with all linting issues resolved
+// main.scss - Fixed version with proper selector specificity order
 // =============================================================================
 
 @use "sass:color";
@@ -15,10 +15,12 @@
 @import url('libs/html-grid');
 
 // =============================================================================
-// BASE STYLES
+// BASE SELECTORS (LOWEST SPECIFICITY FIRST)
 // =============================================================================
 
-// Reset and base typography
+// These MUST come before any more specific selectors to avoid specificity issues
+
+// Base element selectors
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -28,7 +30,6 @@ html {
   line-height: 1.5;
 }
 
-// Consolidated body styles (removing duplicates)
 body {
   font: normal 400 1rem/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
@@ -44,10 +45,7 @@ body {
   }
 }
 
-// =============================================================================
-// TYPOGRAPHY
-// =============================================================================
-
+// Base typography elements
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 _size(element-margin);
   font-weight: 600;
@@ -71,10 +69,7 @@ p {
   margin: 0 0 _size(element-margin);
 }
 
-// =============================================================================
-// LINKS
-// =============================================================================
-
+// Base anchor element (MUST come before any nested anchor selectors)
 a {
   color: #2196f3;
   text-decoration: none;
@@ -91,8 +86,65 @@ a {
   }
 }
 
+// Base list elements (MUST come before any nested list selectors)
+ul, ol {
+  margin: 0 0 _size(element-margin);
+  padding-left: 1.5em;
+}
+
+// Base li element (MUST come before ANY ul.* li selectors)
+li {
+  margin: 0 0 (_size(element-margin) * 0.25);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Base table elements
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 0 _size(element-margin);
+  width: 100%;
+}
+
+tbody tr {
+  border: 1px solid #ddd;
+  border-left: 0;
+  border-right: 0;
+
+  &:nth-child(2n + 1) {
+    background: rgb(244 244 244 / 30%);
+  }
+}
+
+td {
+  padding: 0.75em;
+}
+
+th {
+  color: #666;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding: 0 0.75em 0.75em;
+  text-align: left;
+}
+
+thead {
+  border-bottom: 2px solid #ddd;
+}
+
+tfoot {
+  border-top: 2px solid #ddd;
+}
+
 // =============================================================================
-// FORMS
+// FORM ELEMENTS
 // =============================================================================
 
 // Base form element styles
@@ -224,29 +276,10 @@ input[type="button"] {
 }
 
 // =============================================================================
-// LISTS
+// MORE SPECIFIC SELECTORS (HIGHER SPECIFICITY)
 // =============================================================================
 
-// Base list styles (least specific)
-ul, ol {
-  margin: 0 0 _size(element-margin);
-  padding-left: 1.5em;
-}
-
-// Base li styles (must come before any nested li selectors)
-li {
-  margin: 0 0 (_size(element-margin) * 0.25);
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-// More specific list styles (higher specificity)
+// More specific list styles - these come AFTER base li styles
 ul.alt {
   list-style: none;
   padding-left: 0;
@@ -329,69 +362,32 @@ ul.labeled-icons {
 }
 
 // =============================================================================
-// TABLES
+// TABLE VARIANTS
 // =============================================================================
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  margin: 0 0 _size(element-margin);
-  width: 100%;
+table.alt {
+  border-collapse: separate;
 
-  tbody tr {
+  tbody tr td {
     border: 1px solid #ddd;
-    border-left: 0;
-    border-right: 0;
+    border-left-width: 0;
+    border-top-width: 0;
 
-    &:nth-child(2n + 1) {
-      background: rgb(244 244 244 / 30%);
+    &:first-child {
+      border-left-width: 1px;
     }
   }
 
-  td {
-    padding: 0.75em;
-  }
-
-  th {
-    color: #666;
-    font-size: 0.9em;
-    font-weight: 600;
-    padding: 0 0.75em 0.75em;
-    text-align: left;
+  tbody tr:first-child td {
+    border-top-width: 1px;
   }
 
   thead {
-    border-bottom: 2px solid #ddd;
+    border-bottom: 0;
   }
 
-  tfoot {
-    border-top: 2px solid #ddd;
-  }
-
-  &.alt {
-    border-collapse: separate;
-
-    tbody tr td {
-      border: 1px solid #ddd;
-      border-left-width: 0;
-      border-top-width: 0;
-
-      &:first-child {
-        border-left-width: 1px;
-      }
-    }
-
-    tbody tr:first-child td {
-      border-top-width: 1px;
-    }
-
-    thead {
-      border-bottom: 0;
-    }
-
-    tbody tr:nth-child(2n + 1) td {
-      background: none;
-    }
+  tbody tr:nth-child(2n + 1) td {
+    background: none;
   }
 }
 
@@ -421,7 +417,7 @@ table {
 }
 
 // =============================================================================
-// HEADER
+// HEADER (ID SELECTORS HAVE HIGH SPECIFICITY)
 // =============================================================================
 
 #header {
@@ -481,6 +477,10 @@ table {
         padding-left: 0;
         white-space: nowrap;
 
+        &:first-child {
+          border-left: none;
+        }
+
         a {
           color: #fff;
           display: block;
@@ -519,10 +519,6 @@ table {
               width: 18px;
             }
           }
-        }
-
-        &:first-child {
-          border-left: none;
         }
       }
     }
