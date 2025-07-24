@@ -83,29 +83,49 @@
 					<section id="three">
 						<h2>Get In Touch</h2>
 						<p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p>
-						<div class="row">
-							<div class="col-8 col-12-small">
-								<form method="post" action="#">
-									<div class="row gtr-uniform gtr-50">
-										<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
-										<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
-										<div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
-									</div>
-								</form>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</div>
-							<div class="col-4 col-12-small">
-								<ul class="labeled-icons">
-									<li>
-										<h3 class="icon solid fa-envelope"><span class="label">Email</span></h3>
-										<a href="#">steph.kirsche07@gmail.com</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</section>
+						  <div id="form-message" class="form-message"></div>
+    
+    <div class="row">
+        <div class="col-8 col-12-small">
+            <form id="contact-form">
+                <div class="row gtr-uniform gtr-50">
+                    <div class="col-6 col-12-xsmall">
+                        <input type="text" name="from_name" id="name" placeholder="Name" required />
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <input type="email" name="from_email" id="email" placeholder="Email" required />
+                    </div>
+                    <div class="col-12">
+                        <textarea name="message" id="message" placeholder="Message" rows="4" required></textarea>
+                    </div>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" id="submit-btn" value="Send Message" /></li>
+                </ul>
+            </form>
+        </div>
+        <div class="col-4 col-12-small">
+            <ul class="labeled-icons">
+                <li>
+                    <h3 class="icon solid fa-envelope"><span class="label">Email</span></h3>
+                    <a href="mailto:steph.kirsche07@gmail.com">steph.kirsche07@gmail.com</a>
+                </li>
+                <li>
+                    <h3 class="icon brands fa-instagram"><span class="label">Instagram</span></h3>
+                    <a href="https://www.instagram.com/slkstories/">@slkstories</a>
+                </li>
+                <li>
+                    <h3 class="icon brands fa-goodreads"><span class="label">Goodreads</span></h3>
+                    <a href="https://www.goodreads.com/author/show/29663187.Stephanie_Kirsche">Stephanie Kirsche</a>
+                </li>
+                <li>
+                    <h3 class="icon brands fa-amazon"><span class="label">Amazon</span></h3>
+                    <a href="https://www.amazon.com/stores/Stephanie-Kirsche/author/B0BWWRQCWG">Author Page</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
 
 				<!-- Four -->
 				<!--
@@ -460,8 +480,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 document.getElementById('contact-form').addEventListener('submit', function(event) {
     event.preventDefault();
     
-    const submitBtn = document.getElementById('submit');
-    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submit-btn');
+    const messageDiv = document.getElementById('form-message');
     
     // Show loading state
     showMessage('Sending message...', 'loading');
