@@ -152,8 +152,7 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-select,
-textarea {
+select {
   appearance: none;
   background: #f8f8f8;
   border: 1px solid #ddd;
@@ -176,9 +175,30 @@ textarea {
   }
 }
 
+// Base textarea element (MUST come before any textarea pseudo-selectors)
 textarea {
+  appearance: none;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: inherit;
+  display: block;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75em;
+  width: 100%;
   min-height: 8rem;
   resize: vertical;
+
+  &:focus {
+    border-color: #2196f3;
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(33 150 243 / 20%);
+  }
+
+  &:invalid {
+    border-color: #f44336;
+  }
 }
 
 // Placeholder styles
@@ -259,6 +279,10 @@ ul.actions {
   li {
     flex: 0 0 auto;
     margin: 0;
+
+    &:first-child {
+      margin: 0;
+    }
   }
 
   &.special {
