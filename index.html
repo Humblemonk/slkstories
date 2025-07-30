@@ -253,73 +253,7 @@
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
     ></script>
     <script>
-      // EmailJS Configuration
-      (function () {
-        // Initialize EmailJS with your public key
-        emailjs.init("Kgj2hkLozHYv4c04I"); // Replace with your actual EmailJS public key
-      })();
-
-      // Form submission handler
-      document
-        .getElementById("contact-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          const submitBtn = document.getElementById("submit-btn");
-          const messageDiv = document.getElementById("form-message");
-
-          // Show loading state
-          showMessage("Sending message...", "loading");
-          submitBtn.classList.add("disabled");
-          submitBtn.value = "Sending...";
-          submitBtn.disabled = true;
-
-          // EmailJS service configuration
-          const serviceID = "service_slkstories"; // Replace with your EmailJS service ID
-          const templateID = "template_suloq1k"; // Replace with your EmailJS template ID
-
-          // Send email using EmailJS
-          emailjs
-            .sendForm(serviceID, templateID, this)
-            .then(
-              function (response) {
-                console.log("SUCCESS!", response.status, response.text);
-                showMessage(
-                  "Message sent successfully! I'll get back to you soon.",
-                  "success",
-                );
-                document.getElementById("contact-form").reset();
-              },
-              function (error) {
-                console.log("FAILED...", error);
-                showMessage(
-                  "Failed to send message. Please try again or email me directly at steph.kirsche07@gmail.com",
-                  "error",
-                );
-              },
-            )
-            .finally(function () {
-              // Reset button state
-              submitBtn.classList.remove("disabled");
-              submitBtn.value = "Send Message";
-              submitBtn.disabled = false;
-            });
-        });
-
-      // Function to show messages
-      function showMessage(text, type) {
-        const messageDiv = document.getElementById("form-message");
-        messageDiv.textContent = text;
-        messageDiv.className = "form-message " + type;
-        messageDiv.style.display = "block";
-
-        // Auto-hide success/error messages after 5 seconds
-        if (type !== "loading") {
-          setTimeout(function () {
-            messageDiv.style.display = "none";
-          }, 5000);
-        }
-      }
+      src = "assets/js/contact-form.js";
     </script>
   </body>
 </html>
