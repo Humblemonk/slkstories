@@ -13,6 +13,7 @@ Stephanie Kirsche is a writer with a passion for storytelling. Growing up in ups
 - **Sky is Falling** - A romance novel following Skylar, a writer struggling to move on after a seven-year relationship. She travels to Paris seeking inspiration for her next bestseller and discovers her writing isn't the only thing that needs inspiration.
 - **Pictures of You** - The story of twenty-eight-year-old Rachel Kelly, who is trying to rebuild her life after an accident took away her memories of the last eleven years.
 - **Deadly Sins** (Book One in Syn Sisters Series) - A fantasy novel about Ariadne Jones, a young witch on the run who finds herself in the small town of Dern Hill, attempting to outrun her past and her coven.
+- **Sinfully Delicious** (Book Two in Syn Sisters Series) - The second book in the Syn Sisters series, continuing the story of found family, modern witchcraft, and the challenges faced by women navigating personal growth and redemption.
 
 ## Find Her Books
 
