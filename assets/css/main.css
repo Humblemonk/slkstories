@@ -2693,8 +2693,8 @@ input[type="button"]:disabled,
 }
 
 .work-item .image.fit img {
-    aspect-ratio: 1 / 1.6;
-    object-fit: cover;
+  aspect-ratio: 1 / 1.6;
+  object-fit: cover;
 }
 
 /* Header */
