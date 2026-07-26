@@ -36,7 +36,7 @@ Verify against the repo rather than assuming; this section is a map, not a contr
 | Styles     | Sass in `assets/sass/` → compiled to `assets/css/main.css`                  |
 | Behavior   | jQuery 3.6.0, `jquery.poptrox` (lightbox), `breakpoints.js`, `browser.js`   |
 | Icons      | Font Awesome webfonts in `assets/webfonts/`                                 |
-| Forms      | EmailJS browser SDK v4, loaded from jsDelivr                                |
+| Forms      | None. The site collects no user input.                                      |
 | Hosting    | GitHub Pages, custom domain `slkstories.com`                               |
 | CI         | GitHub Actions — `super-linter` v7.4.0 on push/PR to `main`                 |
 
@@ -91,8 +91,8 @@ Do not open an editor first.
 1. **Research.** Read the files you're about to touch. Check whether the pattern
    already exists elsewhere in the codebase, and match it.
 2. **Plan.** State what you'll change, which files, and how you'll verify it. Put it in
-   front of me before you write code. For anything touching layout, the build pipeline,
-   or the form, wait for confirmation.
+   front of me before you write code. For anything touching layout or the build
+   pipeline, wait for confirmation.
 3. **Implement.** Work in checkpoints. Verify at each one.
 
 Reality checkpoints — stop and validate:
@@ -118,7 +118,7 @@ give me the tradeoff in one sentence each. Don't spiral into a clever fix.
 - Every page needs `<html lang="en">`, a unique `<title>`, and a `<meta name="description">`.
 - No inline `style` attributes. No inline `onclick` handlers.
 - No inline `<style>` or `<script>` blocks — extract to files. This is required for a
-  strict CSP, and it's the reason the current inline blocks are on the debt list.
+  strict CSP.
 - Images: always `alt`, always explicit `width`/`height` (prevents layout shift),
   `loading="lazy"` for anything below the fold, `decoding="async"`.
 - External links that open new tabs: `rel="noopener noreferrer"`.
@@ -139,11 +139,13 @@ give me the tradeoff in one sentence each. Don't spiral into a clever fix.
 ### JavaScript
 
 - **Progressive enhancement.** Content and navigation work with JS disabled. JS adds
-  the lightbox and the form's inline feedback — it does not gate access to the books.
+  the lightbox — it does not gate access to the books.
 - Modern vanilla JS for anything new: `const`/`let`, arrow functions, `querySelector`,
   `addEventListener`, `fetch`. No new jQuery.
 - `defer` on script tags; nothing render-blocking in `<head>`.
 - Any third-party script from a CDN carries an `integrity` (SRI) hash and `crossorigin`.
+  There are currently none, and keeping it that way is worth something — it's what
+  makes a strict CSP tractable.
 - No `console.log` in shipped code. Fail visibly to the user or not at all.
 - Guard DOM lookups — `getElementById` returns `null` on pages where the element
   doesn't exist, and an unguarded `.addEventListener` on `null` kills the whole script.
@@ -151,9 +153,8 @@ give me the tradeoff in one sentence each. Don't spiral into a clever fix.
 
 ### Naming
 
-Descriptive over short. `bookCoverThumb`, not `img`. `contactFormStatus`, not `msg`.
-Delete replaced code in the same change — no `-old`, no `V2`, no commented-out blocks
-kept "just in case." Git remembers.
+Descriptive over short. `bookCoverThumb`, not `img`. Delete replaced code in the same
+change — no `-old`, no `V2`, no commented-out blocks kept "just in case." Git remembers.
 
 ---
 
@@ -166,12 +167,12 @@ Non-negotiable. This is a public-facing commercial site.
 - Text contrast ≥ 4.5:1 (≥ 3:1 for large text and UI boundaries).
 - Book covers get descriptive alt text — the title and that it's a cover. Purely
   decorative images get `alt=""`.
-- Form inputs get real `<label>` elements. Placeholder text is not a label.
-- Error messages are announced: `aria-live="polite"` on the status region.
 - **Never suppress zoom.** `user-scalable=no` and `maximum-scale=1` fail SC 1.4.4 and
   must not appear in the viewport meta tag.
 - Lightbox: focus moves into it on open, is trapped while open, returns to the trigger
   on close, and `Esc` closes it.
+- If a form is ever reintroduced: real `<label>` elements (placeholder text is not a
+  label), and errors announced via `aria-live="polite"`.
 
 Verify with axe DevTools or Lighthouse's a11y audit, plus one keyboard-only pass.
 Automated tools catch maybe half of it; do the manual pass.
@@ -226,36 +227,21 @@ An author site exists to be found. Every page carries:
 GitHub Pages cannot set HTTP response headers, so:
 
 - Enforce HTTPS in the repo's Pages settings.
-- Apply a Content-Security-Policy via `<meta http-equiv>`. This requires the inline
-  script and style blocks to be extracted first — that ordering is why extraction is
-  on the debt list rather than being optional.
-- SRI hashes on every CDN-loaded asset.
-- The EmailJS public key is publishable by design — it is not a secret and does not
-  need to be hidden. What *does* matter is locking the EmailJS service to the
-  `slkstories.com` domain in the EmailJS dashboard, or anyone can send mail through
-  the account. Confirm that allowlist is set.
+- Apply a Content-Security-Policy via `<meta http-equiv>`. The inline `<style>` block
+  is gone and there are no third-party scripts, so the remaining blocker is the Google
+  Fonts `@import` in `main.css` — self-host the font or allow the origin explicitly.
+- SRI hashes on every CDN-loaded asset, if one is ever reintroduced.
+- The site has no form and collects no user input. The only contact channel is the
+  `mailto:` link. If a form is ever added back, treat all input as untrusted and
+  escape on output.
 - Never commit real secrets. If one lands in a commit, rotate it — deleting the line
-  doesn't remove it from history.
-- Treat all form input as untrusted. Escape on output, always.
+  doesn't remove it from history. Note that the retired EmailJS identifiers
+  (`service_slkstories`, `template_suloq1k`, public key) remain in history; the service
+  is deactivated dashboard-side, which is what actually stops abuse.
 
 ---
 
-## 10. Contact form
-
-Client-side EmailJS. Requirements:
-
-- Required-field validation before submit, with messages tied to their inputs.
-- A visible pending state, and the submit button disabled while in flight, so a
-  double-click can't send twice.
-- Success and failure both produce a message in an `aria-live` region.
-- Failure text includes the direct email address as a fallback path.
-- Nothing sensitive logged to the console.
-- A honeypot field is acceptable spam mitigation; a CAPTCHA is not, unless traffic
-  justifies it.
-
----
-
-## 11. Verification
+## 10. Verification
 
 There is no `package.json` in the repo yet, so these commands describe the target
 toolchain. Establishing it is task #1 in Known Debt.
@@ -282,7 +268,7 @@ product URLs rot. Check them whenever you touch the works section.
 
 ---
 
-## 12. Definition of done
+## 11. Definition of done
 
 - [ ] All linters pass, zero issues
 - [ ] HTML validates
@@ -295,36 +281,38 @@ product URLs rot. Check them whenever you touch the works section.
 
 ---
 
-## 13. Known debt
+## 12. Known debt
 
 Findings from the current codebase. Fix opportunistically when you're already in the
 file; don't launch a refactor without agreeing on scope first.
 
 1. **No `package.json` or build tooling.** Nothing pins the Sass compiler or the
-   linters. Highest-leverage fix — everything in §11 depends on it.
+   linters. Highest-leverage fix — everything in §10 depends on it.
 2. **`assets/css/main.css` and `assets/sass/main.scss` have diverged.** The compiled CSS
    has a fixed sidebar `#header`; the Sass has a fixed top nav bar. **Determine which is
    live before editing either.** Recompiling from the current Sass would visibly change
    the site.
 3. **`user-scalable=no` in the viewport meta tag.** WCAG 1.4.4 failure. Remove it.
-4. **Inline `<style>` and `<script>` blocks in `index.html`.** Blocks CSP; extract both.
+4. **No `lang="en"` on the `<html>` element.** Required by §5; one-line fix.
 5. **Empty `alt` on the author avatar and every book cover thumbnail.** Real content
    presented as decorative.
-6. **EmailJS CDN script has no SRI hash** and loads after `main.js` without `defer`.
-7. **`console.log` of EmailJS responses** on both success and failure paths.
-8. **Unused variable** in the submit handler: `messageDiv` is declared, then shadowed by
-   a second declaration inside `showMessage`. ESLint will flag it.
-9. **jQuery 3.6.0 is outdated** (3.7.1 is current). Longer term, poptrox is the only
+6. **Google Fonts `@import` in `main.css`** is the last CSP blocker now that the inline
+   `<style>` block and the third-party script are gone. Self-host or allowlist.
+7. **jQuery 3.6.0 is outdated** (3.7.1 is current). Longer term, poptrox is the only
    real dependency on jQuery, and the native `<dialog>` element plus ~40 lines of vanilla
    JS would replace it — dropping roughly 90 KB.
-10. **No meta description, Open Graph tags, or JSON-LD.** Sharing a link currently
-    produces a bare preview.
-11. **Plain `mailto:` in the footer** — harvestable. Low priority.
-12. **Four Prettier validators disabled in CI.** Re-enable after a formatting pass.
+8. **No meta description, Open Graph tags, or JSON-LD.** Sharing a link currently
+   produces a bare preview.
+9. **Plain `mailto:` in the footer and in `#three`** — harvestable, and now the only
+   contact channel on the site, which raises the stakes on it working.
+10. **Four Prettier validators disabled in CI.** Re-enable after a formatting pass.
+
+Resolved: EmailJS SRI hash, `console.log` of EmailJS responses, and the shadowed
+`messageDiv` variable — all removed with the contact form.
 
 ---
 
-## 14. Content facts
+## 13. Content facts
 
 Single source of truth for copy. Don't invent biographical or bibliographic detail —
 if it isn't here or in the README, ask.
@@ -342,6 +330,11 @@ beginnings.
   eleven years of memory.
 - **Deadly Sins** — fantasy, Book One of the Syn Sisters series. Ariadne Jones, a young
   witch on the run, lands in the town of Dern Hill.
+- **Sinfully Delicious** — fantasy, Book Two of the Syn Sisters series. Four months on,
+  the sisters reunite at the winter solstice as a new threat reaches Dern Hill.
+
+**Contact:** `mailto:` link only, in `#three` and the footer. The embedded contact form
+was removed and the EmailJS account retired.
 
 **Canonical links:** Goodreads, Amazon author store, Barnes & Noble,
 Instagram `@slkstories`.
@@ -352,7 +345,7 @@ vs. Syracuse). Reconcile with Stephanie before publishing either as canonical.
 
 ---
 
-## 15. Working together
+## 14. Working together
 
 - This is always a feature branch. No backwards compatibility to preserve.
 - Clarity over cleverness, every time.
@@ -360,7 +353,7 @@ vs. Syracuse). Reconcile with Stephanie before publishing either as canonical.
 
   ```
   ✓ Extracted inline styles to main.scss, recompiled
-  ✓ Added SRI hash to EmailJS script tag
+  ✓ Removed the EmailJS script tag
   ✗ Lightbox focus trap broken on Safari iOS — investigating
   ```
 
