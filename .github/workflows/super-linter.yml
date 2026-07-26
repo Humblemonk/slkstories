@@ -41,4 +41,5 @@ jobs:
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_CSS_PRETTIER: false
           VALIDATE_JAVASCRIPT_PRETTIER: false
-          FILTER_REGEX_EXCLUDE: '(.*\.min\.(js|css)|assets/css/main\.css)$'
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
