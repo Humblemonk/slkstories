@@ -2692,6 +2692,11 @@ input[type="button"]:disabled,
   margin-bottom: 0;
 }
 
+.work-item .image.fit img {
+    aspect-ratio: 1 / 1.6;
+    object-fit: cover;
+}
+
 /* Header */
 
 #header {
